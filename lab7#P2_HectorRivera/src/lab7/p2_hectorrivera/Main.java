@@ -96,6 +96,11 @@ public class Main extends javax.swing.JFrame {
         jPanel1.setBackground(new java.awt.Color(204, 204, 204));
 
         jButton_enter.setText("Enter");
+        jButton_enter.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButton_enterMouseClicked(evt);
+            }
+        });
 
         javax.swing.tree.DefaultMutableTreeNode treeNode1 = new javax.swing.tree.DefaultMutableTreeNode("Archivos");
         jTree_archivos.setModel(new javax.swing.tree.DefaultTreeModel(treeNode1));
@@ -325,7 +330,7 @@ public class Main extends javax.swing.JFrame {
         // TODO add your handling code here:
         if (jTree_archivos.getSelectionPath().getLastPathComponent()!=null) {
             try {
-                importFile((File) jTree_archivos.getSelectionPath().getLastPathComponent());
+                importFile((File)(((DefaultMutableTreeNode)jTree_archivos.getSelectionPath().getLastPathComponent()).getUserObject()));
             } catch (FileNotFoundException ex) {
                 ex.printStackTrace();
             }
@@ -335,19 +340,45 @@ public class Main extends javax.swing.JFrame {
 
     private void jMenuItem_RefreshTreeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem_RefreshTreeActionPerformed
         // TODO add your handling code here:
-        File carpeta= new File("./Archivos");
-        DefaultTreeModel model = (DefaultTreeModel) jTree_archivos.getModel();
-        DefaultMutableTreeNode raiz = (DefaultMutableTreeNode) model.getRoot();
-        File[] Archivos = carpeta.listFiles();
-        for (int i = 0; i < Archivos.length; i++) {
-            System.out.println(Archivos[i]);
-        }
-        for (File Archivo : Archivos) {
-            DefaultMutableTreeNode archivo = new DefaultMutableTreeNode(Archivo.getName());
-            raiz.add(archivo);
-        }
-        model.reload();
+        refresh();
     }//GEN-LAST:event_jMenuItem_RefreshTreeActionPerformed
+
+    private void jButton_enterMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton_enterMouseClicked
+        // TODO add your handling code here:
+        String cmd = jTextField_commands.getText();
+        if (cmd.startsWith("./load")) {
+            String[] x = cmd.split(" ");
+            File file = new File("./Archivos/" + x[1]);
+            if (file !=null) {
+                try {
+                    importFile(file);
+                } catch (FileNotFoundException ex) {
+                    ex.printStackTrace();
+                }
+            }else{
+                JOptionPane.showMessageDialog(this, "commando inexistente");
+            }
+            
+        }else if(cmd.startsWith("./create")){
+            String[] x = cmd.split(" ");
+            try {
+                if (x[2].equals("-single")) {
+                    newFile(x[1]);
+                }else{
+                    JOptionPane.showMessageDialog(this, "commando inexistente");
+                }
+                
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+        }else if(cmd.equals("./refresh")){
+            refresh();
+        }else if(cmd.equals("./clear")){
+            clear();
+        }else{
+            JOptionPane.showMessageDialog(this, "commando inexistente");
+        }
+    }//GEN-LAST:event_jButton_enterMouseClicked
 
     /**
      * @param args the command line arguments
@@ -413,7 +444,12 @@ public class Main extends javax.swing.JFrame {
     
     public void newFile(String name) throws IOException{
         try {
-            FileWriter fw = new FileWriter("./Archivos/"+name+".txt",false);
+            FileWriter fw = null;
+            if (name.contains(".txt")) {
+                fw = new FileWriter("./Archivos/"+name,false);
+            }else{
+                 fw = new FileWriter("./Archivos/"+name+".txt",false);
+            }
             
             BufferedWriter bfw = new BufferedWriter(fw);
             DefaultTableModel x =(DefaultTableModel)jTable_file.getModel();
@@ -466,5 +502,16 @@ public class Main extends javax.swing.JFrame {
     
     public void clearCMD(){
         jTextField_commands.setText("");
+    }
+    public void refresh(){
+        File carpeta= new File("./Archivos");
+        DefaultTreeModel model = (DefaultTreeModel) jTree_archivos.getModel();
+        DefaultMutableTreeNode raiz = (DefaultMutableTreeNode) model.getRoot();
+        File[] Archivos = carpeta.listFiles();
+        for (File Archivo : Archivos) {
+            DefaultMutableTreeNode archivo = new DefaultMutableTreeNode(Archivo);
+            raiz.add(archivo);
+        }
+        model.reload();
     }
 }
