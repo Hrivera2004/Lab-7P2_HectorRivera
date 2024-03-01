@@ -4,6 +4,7 @@
  */
 package lab7.p2_hectorrivera;
 
+import java.awt.event.MouseEvent;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -16,6 +17,8 @@ import java.util.logging.Logger;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.DefaultTreeModel;
 
 /**
  *
@@ -39,6 +42,11 @@ public class Main extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jPopupMenu_tree = new javax.swing.JPopupMenu();
+        jMenuItem_load = new javax.swing.JMenuItem();
+        jMenuItem_RefreshTree = new javax.swing.JMenuItem();
+        jPopupMenu_Table = new javax.swing.JPopupMenu();
+        jMenuItem_clear = new javax.swing.JMenuItem();
         jPanel1 = new javax.swing.JPanel();
         jTextField_commands = new javax.swing.JTextField();
         jButton_enter = new javax.swing.JButton();
@@ -59,14 +67,43 @@ public class Main extends javax.swing.JFrame {
         jMenuItem_help_product = new javax.swing.JMenuItem();
         jMenuItem_help_Commands = new javax.swing.JMenuItem();
 
+        jMenuItem_load.setText("load");
+        jMenuItem_load.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem_loadActionPerformed(evt);
+            }
+        });
+        jPopupMenu_tree.add(jMenuItem_load);
+
+        jMenuItem_RefreshTree.setText("Refresh");
+        jMenuItem_RefreshTree.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem_RefreshTreeActionPerformed(evt);
+            }
+        });
+        jPopupMenu_tree.add(jMenuItem_RefreshTree);
+
+        jMenuItem_clear.setText("clear");
+        jMenuItem_clear.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem_clearActionPerformed(evt);
+            }
+        });
+        jPopupMenu_Table.add(jMenuItem_clear);
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jPanel1.setBackground(new java.awt.Color(204, 204, 204));
 
         jButton_enter.setText("Enter");
 
-        javax.swing.tree.DefaultMutableTreeNode treeNode1 = new javax.swing.tree.DefaultMutableTreeNode("CSVs");
+        javax.swing.tree.DefaultMutableTreeNode treeNode1 = new javax.swing.tree.DefaultMutableTreeNode("Archivos");
         jTree_archivos.setModel(new javax.swing.tree.DefaultTreeModel(treeNode1));
+        jTree_archivos.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTree_archivosMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(jTree_archivos);
 
         jTable_file.setModel(new javax.swing.table.DefaultTableModel(
@@ -96,6 +133,11 @@ public class Main extends javax.swing.JFrame {
                 "id", "name", "category", "price", "aisle", "bin"
             }
         ));
+        jTable_file.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTable_fileMouseClicked(evt);
+            }
+        });
         jScrollPane2.setViewportView(jTable_file);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -217,8 +259,14 @@ public class Main extends javax.swing.JFrame {
     private void jMenuItem_importActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem_importActionPerformed
         try {
             // TODO add your handling code here:
-            importFile();
-        } catch (FileNotFoundException ex) {
+            JFileChooser file = new JFileChooser("./Archivos");
+            file.setFileSelectionMode(JFileChooser.FILES_ONLY);
+            int selection = file.showOpenDialog(this);
+            if (selection == JFileChooser.APPROVE_OPTION) {
+                File Selected = file.getSelectedFile();
+                importFile(Selected);
+            }
+        } catch (Exception ex) {
             ex.printStackTrace();
             JOptionPane.showMessageDialog(this, "Archivo no encontrado");
         }
@@ -253,6 +301,46 @@ public class Main extends javax.swing.JFrame {
         // TODO add your handling code here:
         JOptionPane.showMessageDialog(this, "\n");
     }//GEN-LAST:event_jMenuItem_help_CommandsActionPerformed
+
+    private void jTable_fileMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable_fileMouseClicked
+        // TODO add your handling code here:
+        if (evt.getButton()==MouseEvent.BUTTON3) {
+            jPopupMenu_Table.show(this, evt.getX(), evt.getY());
+        }
+    }//GEN-LAST:event_jTable_fileMouseClicked
+
+    private void jMenuItem_clearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem_clearActionPerformed
+        // TODO add your handling code here:
+        clear();
+    }//GEN-LAST:event_jMenuItem_clearActionPerformed
+
+    private void jTree_archivosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTree_archivosMouseClicked
+        // TODO add your handling code here:
+        if (evt.getButton()==MouseEvent.BUTTON3) {
+            jPopupMenu_tree.show(this, evt.getX(), evt.getY());
+        }
+    }//GEN-LAST:event_jTree_archivosMouseClicked
+
+    private void jMenuItem_loadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem_loadActionPerformed
+        // TODO add your handling code here:
+        
+    }//GEN-LAST:event_jMenuItem_loadActionPerformed
+
+    private void jMenuItem_RefreshTreeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem_RefreshTreeActionPerformed
+        // TODO add your handling code here:
+        File carpeta= new File("./Archivos");
+        DefaultTreeModel model = (DefaultTreeModel) jTree_archivos.getModel();
+        DefaultMutableTreeNode raiz = (DefaultMutableTreeNode) model.getRoot();
+        File[] Archivos = carpeta.listFiles();
+        for (int i = 0; i < Archivos.length; i++) {
+            System.out.println(Archivos[i]);
+        }
+        for (File Archivo : Archivos) {
+            DefaultMutableTreeNode archivo = new DefaultMutableTreeNode(Archivo.getName());
+            raiz.add(archivo);
+        }
+        model.reload();
+    }//GEN-LAST:event_jMenuItem_RefreshTreeActionPerformed
 
     /**
      * @param args the command line arguments
@@ -293,10 +381,13 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JButton jButton_enter;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
+    private javax.swing.JMenuItem jMenuItem_RefreshTree;
+    private javax.swing.JMenuItem jMenuItem_clear;
     private javax.swing.JMenuItem jMenuItem_createNew;
     private javax.swing.JMenuItem jMenuItem_help_Commands;
     private javax.swing.JMenuItem jMenuItem_help_product;
     private javax.swing.JMenuItem jMenuItem_import;
+    private javax.swing.JMenuItem jMenuItem_load;
     private javax.swing.JMenuItem jMenuItem_subWindows_clear_CMD;
     private javax.swing.JMenuItem jMenuItem_subwindow_refresh;
     private javax.swing.JMenu jMenu_file;
@@ -304,13 +395,14 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JMenu jMenu_subwindow_clear;
     private javax.swing.JMenu jMenu_window;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPopupMenu jPopupMenu_Table;
+    private javax.swing.JPopupMenu jPopupMenu_tree;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTable jTable_file;
     private javax.swing.JTextField jTextField_commands;
     private javax.swing.JTree jTree_archivos;
     // End of variables declaration//GEN-END:variables
-    AdminTXT archivos = null;
     
     public void newFile(String name) throws IOException{
         try {
@@ -340,32 +432,23 @@ public class Main extends javax.swing.JFrame {
         }
     }
     
-    public void importFile() throws FileNotFoundException{
-        JFileChooser file = new JFileChooser("./Archivos");
-        file.setFileSelectionMode(JFileChooser.FILES_ONLY);
-        int selection = file.showOpenDialog(this);
-        if (selection == JFileChooser.APPROVE_OPTION) {
-            try{
-                File Selected = file.getSelectedFile();
-                Scanner sc = new Scanner(Selected);
-                DefaultTableModel x = (DefaultTableModel) jTable_file.getModel();
-                x.setRowCount(0);
-                while(sc.hasNextLine()){
-                    String line =sc.nextLine();
-                    if (line.isEmpty() == false) {
-                        Object[] split = line.split(",");
-                        x.addRow(split);
-                    }
-                    
+    public void importFile(File f) throws FileNotFoundException{
+        try{
+            Scanner sc = new Scanner(f);
+            DefaultTableModel x = (DefaultTableModel) jTable_file.getModel();
+            x.setRowCount(0);
+            while(sc.hasNextLine()){
+                String line =sc.nextLine();
+                if (line.isEmpty() == false) {
+                    Object[] split = line.split(",");
+                    x.addRow(split);
                 }
-            }catch(Exception e){
-                e.printStackTrace();
-                JOptionPane.showMessageDialog(this, "Archivo no encontrado");
+
             }
-           
-            
+        }catch(Exception e){
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(this, "Archivo no encontrado");
         }
-        
     }
     
     public void clear(){
