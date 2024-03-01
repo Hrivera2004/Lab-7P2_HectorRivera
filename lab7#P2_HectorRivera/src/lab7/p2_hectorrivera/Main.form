@@ -2,8 +2,6 @@
 
 <Form version="1.7" maxVersion="1.9" type="org.netbeans.modules.form.forminfo.JFrameFormInfo">
   <NonVisualComponents>
-    <Component class="javax.swing.JFileChooser" name="jFileChooser">
-    </Component>
     <Menu class="javax.swing.JMenuBar" name="jMenuBar1">
       <SubComponents>
         <Menu class="javax.swing.JMenu" name="jMenu_file">
@@ -43,6 +41,9 @@
                   <Properties>
                     <Property name="text" type="java.lang.String" value="Clear table"/>
                   </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMenuItem1ActionPerformed"/>
+                  </Events>
                 </MenuItem>
                 <MenuItem class="javax.swing.JMenuItem" name="jMenuItem_subWindows_clear_CMD">
                   <Properties>
@@ -191,16 +192,16 @@
 
           <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
           <SubComponents>
-            <Component class="javax.swing.JTable" name="jTable1">
+            <Component class="javax.swing.JTable" name="jTable_file">
               <Properties>
                 <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
-                  <Table columnCount="6" rowCount="0">
-                    <Column editable="true" title="id" type="java.lang.Integer"/>
-                    <Column editable="true" title="name" type="java.lang.String"/>
-                    <Column editable="true" title="category" type="java.lang.Integer"/>
-                    <Column editable="true" title="price" type="java.lang.Boolean"/>
-                    <Column editable="true" title="aisle" type="java.lang.Integer"/>
-                    <Column editable="true" title="bin" type="java.lang.Boolean"/>
+                  <Table columnCount="6" rowCount="20">
+                    <Column editable="true" title="id" type="java.lang.Object"/>
+                    <Column editable="true" title="name" type="java.lang.Object"/>
+                    <Column editable="true" title="category" type="java.lang.Object"/>
+                    <Column editable="true" title="price" type="java.lang.Object"/>
+                    <Column editable="true" title="aisle" type="java.lang.Object"/>
+                    <Column editable="true" title="bin" type="java.lang.Object"/>
                   </Table>
                 </Property>
               </Properties>
