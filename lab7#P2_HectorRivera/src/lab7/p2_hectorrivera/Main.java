@@ -323,6 +323,13 @@ public class Main extends javax.swing.JFrame {
 
     private void jMenuItem_loadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem_loadActionPerformed
         // TODO add your handling code here:
+        if (jTree_archivos.getSelectionPath().getLastPathComponent()!=null) {
+            try {
+                importFile((File) jTree_archivos.getSelectionPath().getLastPathComponent());
+            } catch (FileNotFoundException ex) {
+                ex.printStackTrace();
+            }
+        }
         
     }//GEN-LAST:event_jMenuItem_loadActionPerformed
 
