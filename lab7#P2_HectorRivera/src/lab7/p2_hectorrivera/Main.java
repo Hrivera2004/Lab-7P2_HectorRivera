@@ -164,6 +164,11 @@ public class Main extends javax.swing.JFrame {
         jMenu_subwindow_clear.add(jMenuItem1);
 
         jMenuItem_subWindows_clear_CMD.setText("clear commandLine");
+        jMenuItem_subWindows_clear_CMD.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem_subWindows_clear_CMDActionPerformed(evt);
+            }
+        });
         jMenu_subwindow_clear.add(jMenuItem_subWindows_clear_CMD);
 
         jMenu_window.add(jMenu_subwindow_clear);
@@ -176,9 +181,19 @@ public class Main extends javax.swing.JFrame {
         jMenu_help.setText("help");
 
         jMenuItem_help_product.setText("product structure");
+        jMenuItem_help_product.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem_help_productActionPerformed(evt);
+            }
+        });
         jMenu_help.add(jMenuItem_help_product);
 
         jMenuItem_help_Commands.setText("Commands");
+        jMenuItem_help_Commands.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem_help_CommandsActionPerformed(evt);
+            }
+        });
         jMenu_help.add(jMenuItem_help_Commands);
 
         jMenuBar1.add(jMenu_help);
@@ -222,6 +237,22 @@ public class Main extends javax.swing.JFrame {
         // TODO add your handling code here:
         clear();
     }//GEN-LAST:event_jMenuItem1ActionPerformed
+
+    private void jMenuItem_subWindows_clear_CMDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem_subWindows_clear_CMDActionPerformed
+        // TODO add your handling code here:
+        clearCMD();
+    }//GEN-LAST:event_jMenuItem_subWindows_clear_CMDActionPerformed
+
+    private void jMenuItem_help_productActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem_help_productActionPerformed
+        // TODO add your handling code here:
+        JOptionPane.showMessageDialog(this, "Formato producto:"
+                + "\n Integer , String , integer , Double , Integer , Integer");
+    }//GEN-LAST:event_jMenuItem_help_productActionPerformed
+
+    private void jMenuItem_help_CommandsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem_help_CommandsActionPerformed
+        // TODO add your handling code here:
+        JOptionPane.showMessageDialog(this, "\n");
+    }//GEN-LAST:event_jMenuItem_help_CommandsActionPerformed
 
     /**
      * @param args the command line arguments
@@ -343,5 +374,7 @@ public class Main extends javax.swing.JFrame {
         x.setRowCount(20);
     }
     
-    public
+    public void clearCMD(){
+        jTextField_commands.setText("");
+    }
 }
