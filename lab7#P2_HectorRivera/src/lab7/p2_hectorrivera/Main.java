@@ -2,6 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
+//que grande
 package lab7.p2_hectorrivera;
 
 import java.awt.event.MouseEvent;
@@ -304,7 +305,16 @@ public class Main extends javax.swing.JFrame {
 
     private void jMenuItem_help_CommandsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem_help_CommandsActionPerformed
         // TODO add your handling code here:
-        JOptionPane.showMessageDialog(this, "\n");
+        JOptionPane.showMessageDialog(this, "comandos:\n" +
+"\n" +
+"Para cargar la tabla: \n" +
+"Comando:  ./load data.txt\n" +
+"Para la creación de archivos:\n" +
+"Comando:  ./create archivo.txt -single\n" +
+"Para limpiar la tabla:\n" +
+"Comando: ./clear\n" +
+"Para cargar los árboles:\n" +
+"Comando: ./refresh");
     }//GEN-LAST:event_jMenuItem_help_CommandsActionPerformed
 
     private void jTable_fileMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable_fileMouseClicked
@@ -362,8 +372,13 @@ public class Main extends javax.swing.JFrame {
         }else if(cmd.startsWith("./create")){
             String[] x = cmd.split(" ");
             try {
+                
                 if (x[2].equals("-single")) {
-                    newFile(x[1]);
+                    if (x[1].contains(".txt")) {
+                        newFile(x[1]);
+                    }
+                    
+                    
                 }else{
                     JOptionPane.showMessageDialog(this, "commando inexistente");
                 }
@@ -514,4 +529,6 @@ public class Main extends javax.swing.JFrame {
         }
         model.reload();
     }
+    
+    
 }
