@@ -4,6 +4,14 @@
  */
 package lab7.p2_hectorrivera;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author hriverav
@@ -26,6 +34,7 @@ public class Main extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jFileChooser = new javax.swing.JFileChooser();
         jPanel1 = new javax.swing.JPanel();
         jTextField_commands = new javax.swing.JTextField();
         jButton_enter = new javax.swing.JButton();
@@ -110,6 +119,11 @@ public class Main extends javax.swing.JFrame {
         jMenu_file.setText("File");
 
         jMenuItem_createNew.setText("New File");
+        jMenuItem_createNew.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem_createNewActionPerformed(evt);
+            }
+        });
         jMenu_file.add(jMenuItem_createNew);
 
         jMenuItem_import.setText("Import File");
@@ -167,7 +181,18 @@ public class Main extends javax.swing.JFrame {
 
     private void jMenuItem_importActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem_importActionPerformed
         // TODO add your handling code here:
+        JFileChooser file = new JFileChooser("./Archivos");
+
     }//GEN-LAST:event_jMenuItem_importActionPerformed
+
+    private void jMenuItem_createNewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem_createNewActionPerformed
+        try {
+            // TODO add your handling code here:
+            newFile(JOptionPane.showInputDialog("Ingrese un nombre para su archivo"));
+        } catch (IOException ex) {
+            JOptionPane.showMessageDialog(this, "No se creo su archivo");
+        }
+    }//GEN-LAST:event_jMenuItem_createNewActionPerformed
 
     /**
      * @param args the command line arguments
@@ -206,6 +231,7 @@ public class Main extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton_enter;
+    private javax.swing.JFileChooser jFileChooser;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem_createNew;
@@ -225,4 +251,15 @@ public class Main extends javax.swing.JFrame {
     private javax.swing.JTextField jTextField_commands;
     private javax.swing.JTree jTree_archivos;
     // End of variables declaration//GEN-END:variables
+    AdminTXT archivos = null;
+    
+    public void newFile(String name) throws IOException{
+        try {
+            FileWriter fw = new FileWriter("./Archivos/"+name+".txt");
+            JOptionPane.showMessageDialog(this, "Se creo su archivo");
+            fw.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 }
